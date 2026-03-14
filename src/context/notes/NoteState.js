@@ -14,7 +14,7 @@ const getNotes =async () => {
     method: 'GET',
     headers: {
       'Content-Type':'application/json',
-      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjliMDY1YjUxMjMxOWY3NGRhZGEzMTZmIn0sImlhdCI6MTc3MzIyNTYyNX0.RbfmiXHOyTFVhkS2MFmH5PLsGW7L343GaVitTTjS1OU'
+      'auth-token': localStorage.getItem('token')
     },
   });
   const json = await response.json()
@@ -29,25 +29,13 @@ const addNote =async (title, description, tag) => {
     method: 'POST',
     headers: {
       'Content-Type':'application/json',
-      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjliMDY1YjUxMjMxOWY3NGRhZGEzMTZmIn0sImlhdCI6MTc3MzIyNTYyNX0.RbfmiXHOyTFVhkS2MFmH5PLsGW7L343GaVitTTjS1OU'
+      'auth-token': localStorage.getItem('token')
     },
     body: JSON.stringify({title, description, tag})
   });
 
-    const json = await response.json();
-    console.log(json);
-
-  console.log("Adding a new note")
- const note =  {
-    "_id": "69b14e8794655bce41929a14a",
-    "user": "69b065b512319f74dada316f",
-    "title": title,
-    "description": description,
-    "tag": tag,
-    "date": "2026-03-11T11:14:15.011Z",
-    "__v": 0
-  }
-   setNotes(notes.concat(note))
+    const note = await response.json();
+     setNotes(notes.concat(note))
 }
 
 //Delete a Note
@@ -58,13 +46,12 @@ const deleteNote = async (id) => {
     method: 'DELETE',
     headers: {
       'Content-Type':'application/json',
-      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjliMDY1YjUxMjMxOWY3NGRhZGEzMTZmIn0sImlhdCI6MTc3MzIyNTYyNX0.RbfmiXHOyTFVhkS2MFmH5PLsGW7L343GaVitTTjS1OU'
+      'auth-token': localStorage.getItem('token')
     },
   });
   const json = response.json();
   console.log(json);
 
-  console.log("Deleting the note with id "+id)
  const newNotes = notes.filter((note) => {return note._id !== id})
    setNotes(newNotes)
 }
@@ -79,12 +66,12 @@ const editNote =async (id, title, description, tag) => {
     method: 'PUT',
     headers: {
       'Content-Type':'application/json',
-      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjliMDY1YjUxMjMxOWY3NGRhZGEzMTZmIn0sImlhdCI6MTc3MzIyNTYyNX0.RbfmiXHOyTFVhkS2MFmH5PLsGW7L343GaVitTTjS1OU'
+      'auth-token': localStorage.getItem('token')
     },
     body: JSON.stringify({title, description, tag})
   });
   const json = await response.json();
-  console.log(json);
+  console.log(json)
 
   let newNotes = JSON.parse(JSON.stringify(notes))
   //Logic to edit in client
